@@ -1,3 +1,10 @@
 body {
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: Arial, Helvetica, sans-serif
+}
+p {
+  margin: 0;
+}
+input,
+select {
+  font-size: 1em;
 }
