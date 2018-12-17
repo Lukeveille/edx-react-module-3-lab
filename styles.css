@@ -8,3 +8,14 @@ input,
 select {
   font-size: 1em;
 }
+table {
+  width: 100%;
+  text-align: center;
+}
+td {
+  width: 21%;
+}
+button {
+  margin: 0 auto;
+  cursor: pointer;
+}

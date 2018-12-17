@@ -16,9 +16,6 @@ function ActivitySelect(props) {
 function Restrictions(props) {
   let restrictions = Object.keys(props.restrictions)
   let restrictionList = restrictions.map((restriction, index) => {
-    console.log(restriction)
-    console.log(index)
-
     return <Restriction key={index}
       letter={String.fromCharCode(index+97)}
       restriction={restriction}
@@ -36,6 +33,34 @@ function Restriction(props) {
     <input type="checkbox" checked={props.checked} value={props.restriction} onChange={e => props.handleChange(e)} /> {props.letter}) {props.restriction}
   </div>
 }
+function Registrants(props) {
+  const registrants = props.registrants.map(registrant => 
+    <Registrant registrant={registrant}/>
+  )
+  return <table>
+    <tr>
+      <th>Remove</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Activity</th>
+      <th>Restrictions</th>
+    </tr>
+    {registrants}
+  </table>
+}
+function Registrant(props) {
+  const style = {
+    width: 20,
+    height: 20,
+  }
+  return <tr>
+    <td><button style={style}>x</button></td>
+    <td>{props.registrant.first}</td>
+    <td>{props.registrant.last}</td>
+    <td>{props.registrant.activity}</td>
+    <td>{props.registrant.restrictions}</td>
+  </tr>
+}
 
 class App extends React.Component {
   constructor(props) {
@@ -45,10 +70,14 @@ class App extends React.Component {
       last: '',
       activity: 'Science Lab',
       restrictions: {
-        'Dietary Restrictions': true,
+        'Dietary Restrictions': false,
         'Physical Disabilities': false,
         'Medical Needs': false,
-      }
+      },
+      registrants: [
+        {first: 'Luke', last: 'Leveille', activity: 'Science Lab', restrictions: 'abc'},
+        {first: 'Matt', last: 'Betts', activity: 'Cooking', restrictions: 'a'},
+      ],
     }
   }
   changeFirst(e) {
@@ -65,6 +94,26 @@ class App extends React.Component {
     restrictions[e.target.value] = !this.state.restrictions[e.target.value]
     this.setState({restrictions})
   }
+  register() {
+    const restrictions = this.state.restrictions['Dietary Restrictions']? 'a' : '' + this.state.restrictions['Physical Disabilities']? 'b' : '' + this.state.restrictions['Medical Needs']? 'c' : ''
+    if (this.state.first === '' || this.state.last === '') {
+      alert('Must enter a first and last name!')
+    } else {
+      this.setState(prevState => {
+        prevState.registrants[prevState.registrants.length] = {first: prevState.first, last: prevState.last, activity: prevState.activity, restrictions: restrictions};
+        return {
+          registrants: prevState.registrants,
+          first: '',
+          last: '',
+          restrictions: {
+            'Dietary Restrictions': false,
+            'Physical Disabilities': false,
+            'Medical Needs': false,
+          },
+        }
+      })
+    }
+  }
   
   render() {
     return <div>
@@ -72,6 +121,8 @@ class App extends React.Component {
       <NameField name='Last' nameValue={this.state.last} handleChange={this.changeLast.bind(this)} />
       <ActivitySelect activities={['Science Lab', 'Cooking', 'Painting', 'Swimming', 'Coding', 'Biking']} handleChange={this.changeActivity.bind(this)} />
       <Restrictions restrictions={this.state.restrictions} handleChange={this.changeRestrictions.bind(this)}/>
+      <button onClick={this.register.bind(this)}>Submit</button>
+      <Registrants registrants={this.state.registrants} />
     </div>
   }
 }
