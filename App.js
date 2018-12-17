@@ -34,9 +34,9 @@ function Restriction(props) {
   </div>
 }
 function Registrants(props) {
-  const registrants = props.registrants.map(registrant => 
-    <Registrant registrant={registrant}/>
-  )
+  const registrants = props.registrants.map((registrant, index) => {
+    return <Registrant index={index} registrant={registrant} removeEntry={props.removeEntry}/>
+  })
   return <table>
     <tr>
       <th>Remove</th>
@@ -54,7 +54,7 @@ function Registrant(props) {
     height: 20,
   }
   return <tr>
-    <td><button style={style}>x</button></td>
+    <td><button style={style} onClick={() => {props.removeEntry(props.index)}}>x</button></td>
     <td>{props.registrant.first}</td>
     <td>{props.registrant.last}</td>
     <td>{props.registrant.activity}</td>
@@ -95,7 +95,9 @@ class App extends React.Component {
     this.setState({restrictions})
   }
   register() {
-    const restrictions = this.state.restrictions['Dietary Restrictions']? 'a' : '' + this.state.restrictions['Physical Disabilities']? 'b' : '' + this.state.restrictions['Medical Needs']? 'c' : ''
+    let restrictions = this.state.restrictions['Dietary Restrictions']? 'a' : ''
+    restrictions += this.state.restrictions['Physical Disabilities']? 'b' : ''
+    restrictions += this.state.restrictions['Medical Needs']? 'c' : ''
     if (this.state.first === '' || this.state.last === '') {
       alert('Must enter a first and last name!')
     } else {
@@ -114,6 +116,10 @@ class App extends React.Component {
       })
     }
   }
+  removeEntry(i) {
+    this.state.registrants.splice(i, 1)
+    this.setState({registrants: this.state.registrants})
+  }
   
   render() {
     return <div>
@@ -122,7 +128,7 @@ class App extends React.Component {
       <ActivitySelect activities={['Science Lab', 'Cooking', 'Painting', 'Swimming', 'Coding', 'Biking']} handleChange={this.changeActivity.bind(this)} />
       <Restrictions restrictions={this.state.restrictions} handleChange={this.changeRestrictions.bind(this)}/>
       <button onClick={this.register.bind(this)}>Submit</button>
-      <Registrants registrants={this.state.registrants} />
+      <Registrants registrants={this.state.registrants} removeEntry={this.removeEntry.bind(this)}/>
     </div>
   }
 }
