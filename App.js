@@ -30,23 +30,23 @@ function Restrictions(props) {
 }
 function Restriction(props) {
   return <div>
-    <input type="checkbox" checked={props.checked} value={props.restriction} onChange={e => props.handleChange(e)} /> {props.letter}) {props.restriction}
+    <p><input type="checkbox" checked={props.checked} value={props.restriction} onChange={e => props.handleChange(e)} /> {props.letter}) {props.restriction}</p>
   </div>
 }
 function Registrants(props) {
   const registrants = props.registrants.map((registrant, index) => {
     return <Registrant index={index} registrant={registrant} removeEntry={props.removeEntry}/>
   })
-  return <table>
+  return props.registrants[0]? <table>
     <tr>
-      <th>Remove</th>
+      <th className="remove">Remove</th>
       <th>First Name</th>
       <th>Last Name</th>
       <th>Activity</th>
       <th>Restrictions</th>
     </tr>
     {registrants}
-  </table>
+  </table> : ''
 }
 function Registrant(props) {
   const style = {
@@ -54,7 +54,7 @@ function Registrant(props) {
     height: 20,
   }
   return <tr>
-    <td><button style={style} onClick={() => {props.removeEntry(props.index)}}>x</button></td>
+    <td className="remove"><button className="x" style={style} onClick={() => {props.removeEntry(props.index)}}>x</button></td>
     <td>{props.registrant.first}</td>
     <td>{props.registrant.last}</td>
     <td>{props.registrant.activity}</td>
@@ -74,10 +74,7 @@ class App extends React.Component {
         'Physical Disabilities': false,
         'Medical Needs': false,
       },
-      registrants: [
-        {first: 'Luke', last: 'Leveille', activity: 'Science Lab', restrictions: 'abc'},
-        {first: 'Matt', last: 'Betts', activity: 'Cooking', restrictions: 'a'},
-      ],
+      registrants: [],
     }
   }
   changeFirst(e) {

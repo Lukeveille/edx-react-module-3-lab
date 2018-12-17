@@ -1,21 +1,51 @@
 body {
-  font-family: Arial, Helvetica, sans-serif
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 300;
 }
-p {
-  margin: 0;
+main {
+  margin: 2em;
+  max-width: 900px;
 }
 input,
-select {
+select,
+button {
   font-size: 1em;
+  margin: .25em 0;
+}
+h2 {
+  font-weight: 300;
+  color: #777;
 }
 table {
-  width: 100%;
-  text-align: center;
+  border: 1px solid grey;
+  border-collapse: collapse;
 }
-td {
-  width: 21%;
+th {
+  background-color: #EEE;
+}
+th, td {
+  border: 1px solid #BBB;
+  padding: 10px;
+  width: 20%;
+  text-align: justify;
 }
 button {
-  margin: 0 auto;
+  background: linear-gradient(#f1f1f1,#d9d1d1);
+  font-weight: 700;
+  font-size: 0.8em;
+  border-radius: 3px;
+  transition: .25s;
+  padding: .4em;
+  width: 160px;
   cursor: pointer;
+}
+button:hover {
+  background: linear-gradient(#e0dfdf,#c0b7b7);
+}
+.remove {
+  max-width: 300px;
+  text-align: center;
+}
+.x {
+  padding: 0;
 }
